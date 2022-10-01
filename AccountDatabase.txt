@@ -1,0 +1,6 @@
+sam|snake|0|admin
+rick|rat|1|Standard
+mark|monkey|2|Standard
+fred|fox|3|Standard
+adam|ape|4|admin
+Homer|cola|5|admin
