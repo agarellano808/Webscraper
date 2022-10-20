@@ -17,7 +17,19 @@ public class SearchPanel extends JFrame {
 	private JTextField searchField;
 	private JTextField changeOutputLocationField;
 	private ResultsFilePrinter resultsPrinter= new ResultsFilePrinter();
+	private JScrollPane scrollPane;
+	private JTextArea resultArea;
+	private JLabel messageLabel;
+	private JButton searchButton;
+	private JButton hashTableButton;
+	private JButton printButton;
+	private JButton logoutButton;
+	private JButton changeOutputLocationButton;
+	private JButton userAccountButton;
+	private JButton accountDatabaseButton;
+	
 	/* This method creates the GUI*/
+	
 	public SearchPanel(UserAccount u) {
 		setTitle("Search Screen");
 		/*Setting the contentPane*/
@@ -27,7 +39,11 @@ public class SearchPanel extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		addComponents();
+		addActionListeners(u);
+	}
+	
+	private void addComponents() {
 		/*Placing the text screen on the cotent panel and setting the bounds and columns*/
 		searchField = new JTextField();
 		searchField.setBounds(122, 36, 408, 20);
@@ -36,21 +52,57 @@ public class SearchPanel extends JFrame {
 		
 		/*The text area where the results are displayed*/
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(123, 101, 407, 178);
 		contentPane.add(scrollPane);
-		JTextArea resultArea = new JTextArea();
+		
+		resultArea = new JTextArea();
 		scrollPane.setViewportView(resultArea);
 		resultArea.setEditable(false);
 		
-		JLabel messageLabel = new JLabel("");
+		messageLabel = new JLabel("");
 		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		messageLabel.setBounds(61, 11, 503, 14);
 		contentPane.add(messageLabel);
 		/*A button for searching*/
-		JButton searchButton = new JButton("Search");
+		searchButton = new JButton("Search");
 		searchButton.setBounds(283, 67, 89, 23);
 		contentPane.add(searchButton);
+		
+		/*A button to access the users stored data*/
+		hashTableButton = new JButton("Hash Table");
+		hashTableButton.setBounds(9, 375, 104, 23);
+		contentPane.add(hashTableButton);
+		
+		/*A button to print search results*/
+		printButton = new JButton("Print Results");
+		printButton.setBounds(278, 292, 105, 23);
+		contentPane.add(printButton);
+		
+		/*A button to logout from curretnt account*/
+		logoutButton = new JButton("Logout");
+		logoutButton.setBounds(533, 375, 89, 23);
+		contentPane.add(logoutButton);
+		
+		changeOutputLocationField = new JTextField();
+		changeOutputLocationField.setColumns(10);
+		changeOutputLocationField.setBounds(297, 376, 212, 20);
+		contentPane.add(changeOutputLocationField);
+		
+		changeOutputLocationButton = new JButton("Change Output Location");
+		changeOutputLocationButton.setBounds(132, 375, 155, 23);
+		contentPane.add(changeOutputLocationButton);
+		
+		userAccountButton = new JButton("User Account");
+		userAccountButton.setBounds(9, 307, 104, 23);
+		contentPane.add(userAccountButton);
+		
+		accountDatabaseButton = new JButton("Account DB");
+		accountDatabaseButton.setBounds(9, 273, 104, 23);
+		contentPane.add(accountDatabaseButton);
+	}
+	
+	private void addActionListeners(UserAccount u) {
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 long startTime = System.nanoTime();
@@ -60,10 +112,6 @@ public class SearchPanel extends JFrame {
 				resultArea.append(results);
 			}
 		});
-		/*A button to access the users stored data*/
-		JButton hashTableButton = new JButton("Hash Table");
-		hashTableButton.setBounds(9, 375, 104, 23);
-		contentPane.add(hashTableButton);
 		hashTableButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			OfflineHashtablePanel frame = new OfflineHashtablePanel(u);
@@ -72,21 +120,17 @@ public class SearchPanel extends JFrame {
 				
 			}
 			});
-		/*A button to print search results*/
-		JButton printButton = new JButton("Print Results");
+		
+
 		printButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resultsPrinter.writeToFile(resultArea.getText());
 				messageLabel.setText("The results have been sucessfully written to "+resultsPrinter.getOutputLocation());
 			}
 		});
-		printButton.setBounds(278, 292, 105, 23);
-		contentPane.add(printButton);
+
 		
-		/*A button to logout from curretnt account*/
-		JButton logoutButton = new JButton("Logout");
-		logoutButton.setBounds(533, 375, 89, 23);
-		contentPane.add(logoutButton);
+
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			LoginPanel frame = new LoginPanel();
@@ -96,14 +140,7 @@ public class SearchPanel extends JFrame {
 			});
 		
 
-		changeOutputLocationField = new JTextField();
-		changeOutputLocationField.setColumns(10);
-		changeOutputLocationField.setBounds(297, 376, 212, 20);
-		contentPane.add(changeOutputLocationField);
-		
-		JButton changeOutputLocationButton = new JButton("Change Output Location");
-		changeOutputLocationButton.setBounds(132, 375, 155, 23);
-		contentPane.add(changeOutputLocationButton);
+
 		changeOutputLocationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				resultsPrinter.setOutputLocation(changeOutputLocationField.getText());
@@ -111,9 +148,7 @@ public class SearchPanel extends JFrame {
 			}
 			});
 		
-		JButton userAccountButton = new JButton("User Account");
-		userAccountButton.setBounds(9, 307, 104, 23);
-		contentPane.add(userAccountButton);
+
 		userAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserAccountPanel frame = new UserAccountPanel(u);
@@ -123,9 +158,7 @@ public class SearchPanel extends JFrame {
 		});
 
 		
-		JButton accountDatabaseButton = new JButton("Account DB");
-		accountDatabaseButton.setBounds(9, 273, 104, 23);
-		contentPane.add(accountDatabaseButton);
+
 		accountDatabaseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AccountDatabasePanel frame = new AccountDatabasePanel(u);
@@ -134,21 +167,20 @@ public class SearchPanel extends JFrame {
 			}
 		});
 	
+		if(u.getAccountType().equals("guest")) {
+			changeOutputLocationField.setEnabled(false);
+			changeOutputLocationButton.setEnabled(false);
+			printButton.setEnabled(false);
+			hashTableButton.setEnabled(false);
+			accountDatabaseButton.setEnabled(false);
+			userAccountButton.setEnabled(false);
+		}
+
+		if(!u.getAccountType().equals("admin")) {
+			accountDatabaseButton.setEnabled(false);
+
+		}
 		
-
-
-if(u.getAccountType().equals("guest")) {
-	changeOutputLocationField.setEnabled(false);
-	changeOutputLocationButton.setEnabled(false);
-	printButton.setEnabled(false);
-	hashTableButton.setEnabled(false);
-	accountDatabaseButton.setEnabled(false);
-	userAccountButton.setEnabled(false);
-}
-
-if(!u.getAccountType().equals("admin")) {
-	accountDatabaseButton.setEnabled(false);
-
-}
+		
 	}
 }

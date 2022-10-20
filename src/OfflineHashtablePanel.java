@@ -12,8 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+
 
 public class OfflineHashtablePanel extends JFrame {
 	/*Panel where everything is placed*/
@@ -27,10 +26,23 @@ public class OfflineHashtablePanel extends JFrame {
 	private ResultsFilePrinter resultsPrinter= new ResultsFilePrinter();
 	private JTextField usernameTextField;
 	private Boolean isRegularUser=false;
+	private JScrollPane scrollPane;
+	private JTextArea resultArea;
+	private JLabel messageLabel;
+	private JButton deleteButton;
+	private JButton backButton;
+	private JButton searchButton;
+	private JButton printButton;
+	private JButton transactionLogButton;
+	private JButton showAllButton;
+	private JButton timeSearchButton;
+	private JButton usernameSearchButton;
+	private JButton reconstructionButton;
+	
 	/* Create the frame. */
 	public OfflineHashtablePanel(UserAccount u) {
 		setTitle("Offline Hashtable GUI");	
-			resultDatabase= new ResultsDatabase();
+		resultDatabase= new ResultsDatabase();
 		/*Setting the contentPane*/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -43,22 +55,28 @@ public class OfflineHashtablePanel extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
+		addComponents();
+		addActionListeners(u);
 		
+	}
+	
+	private void addComponents() {
 		/*The text field for the search bar is initialized and setup*/
 		queryField = new JTextField();
 		queryField.setBounds(211, 40, 326, 20);
 		contentPane.add(queryField);
 		queryField.setColumns(10);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(160, 92, 442, 234);
 		contentPane.add(scrollPane);
 
-		JTextArea resultArea = new JTextArea();
+		resultArea = new JTextArea();
 		scrollPane.setViewportView(resultArea);
 		resultArea.setEditable(false);
 		
-		JLabel messageLabel = new JLabel("");
+		messageLabel = new JLabel("");
 		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		messageLabel.setBounds(69, 11, 622, 18);
 		contentPane.add(messageLabel);
@@ -84,9 +102,50 @@ public class OfflineHashtablePanel extends JFrame {
 		timeBeginField.setColumns(10);
 		
 		/*The button to delete the stored data is initialized and setup*/
-		JButton deleteButton = new JButton("Delete");
+		deleteButton = new JButton("Delete");
 		deleteButton.setBounds(651, 269, 89, 23);
 		contentPane.add(deleteButton);
+		
+		/*The button to go back to the website search screen is initialized and setup*/
+		backButton = new JButton("Back");
+		backButton.setBounds(651, 381, 89, 23);
+		contentPane.add(backButton);
+		
+		/*The button to search the stored data is initialized and setup*/
+		searchButton = new JButton("Search");
+		searchButton.setBounds(332, 62, 89, 23);
+		contentPane.add(searchButton);
+		
+		
+		/*The button to print the stored data is initialized and setup*/
+		printButton = new JButton("Print");
+		printButton.setBounds(651, 334, 89, 23);
+		contentPane.add(printButton);
+		
+		transactionLogButton = new JButton("Transaction Log");
+		transactionLogButton.setBounds(10, 337, 120, 23);
+		contentPane.add(transactionLogButton);
+		
+		showAllButton = new JButton("Show All");
+		showAllButton.setBounds(10, 303, 120, 23);
+		contentPane.add(showAllButton);
+		
+		timeSearchButton = new JButton("Time Search");
+		timeSearchButton.setBounds(639, 94, 101, 23);
+		contentPane.add(timeSearchButton);
+		
+		usernameSearchButton = new JButton("Username Search");
+		usernameSearchButton.setBounds(10, 136, 123, 23);
+		contentPane.add(usernameSearchButton);
+		
+		reconstructionButton = new JButton("Reconstruct DB");
+		reconstructionButton.setBounds(10, 371, 120, 23);
+		contentPane.add(reconstructionButton);
+		
+		
+	}
+	
+	private void addActionListeners(UserAccount u) {
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!deleteTextField.getText().equals("")) {
@@ -104,11 +163,7 @@ public class OfflineHashtablePanel extends JFrame {
 				}
 			}
 		});
-	
-		/*The button to go back to the website search screen is initialized and setup*/
-		JButton backButton = new JButton("Back");
-		backButton.setBounds(651, 381, 89, 23);
-		contentPane.add(backButton);
+		
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					SearchPanel frame = new SearchPanel(u);
@@ -116,10 +171,7 @@ public class OfflineHashtablePanel extends JFrame {
 				    dispose();
 			}
 		});
-		/*The button to search the stored data is initialized and setup*/
-		JButton searchButton = new JButton("Search");
-		searchButton.setBounds(332, 62, 89, 23);
-		contentPane.add(searchButton);
+		
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String results="";
@@ -134,11 +186,7 @@ public class OfflineHashtablePanel extends JFrame {
 			
 			}
 		});
-		
-		/*The button to print the stored data is initialized and setup*/
-		JButton printButton = new JButton("Print");
-		printButton.setBounds(651, 334, 89, 23);
-		contentPane.add(printButton);
+
 		printButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resultsPrinter.writeToFile(resultArea.getText());
@@ -149,22 +197,17 @@ public class OfflineHashtablePanel extends JFrame {
 		
 
 		
-		JButton transactionLogButton = new JButton("Transaction Log");
+
+		
+
 		transactionLogButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resultArea.setText(resultDatabase.printTransactionLog());
 			}
 		});
-		transactionLogButton.setBounds(10, 337, 120, 23);
-		contentPane.add(transactionLogButton);
-		
 
 		
 
-		
-		JButton showAllButton = new JButton("Show All");
-		showAllButton.setBounds(10, 303, 120, 23);
-		contentPane.add(showAllButton);
 		showAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isRegularUser) {
@@ -176,9 +219,7 @@ public class OfflineHashtablePanel extends JFrame {
 			}
 		});
 		
-		JButton timeSearchButton = new JButton("Time Search");
-		timeSearchButton.setBounds(639, 94, 101, 23);
-		contentPane.add(timeSearchButton);
+
 		timeSearchButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -187,10 +228,7 @@ public class OfflineHashtablePanel extends JFrame {
 		
 		});
 		
-		JButton usernameSearchButton = new JButton("Username Search");
-		
-		usernameSearchButton.setBounds(10, 136, 123, 23);
-		contentPane.add(usernameSearchButton);
+
 		usernameSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resultArea.setText(resultDatabase.usernameResultsSearch(usernameTextField.getText(),u.getUserName()));
@@ -199,9 +237,7 @@ public class OfflineHashtablePanel extends JFrame {
 
 
 		
-		JButton reconstructionButton = new JButton("Reconstruct DB");
-		reconstructionButton.setBounds(10, 371, 120, 23);
-		contentPane.add(reconstructionButton);
+
 		reconstructionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(resultDatabase.reconstructDatabase()) {
@@ -215,7 +251,5 @@ public class OfflineHashtablePanel extends JFrame {
 			reconstructionButton.setEnabled(false);
 		    usernameSearchButton.setEnabled(false);
 		}
-		
-
 	}
 }

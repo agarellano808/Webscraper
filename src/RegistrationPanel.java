@@ -1,6 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +16,13 @@ public class RegistrationPanel extends JFrame {
 	private JTextField usernameTextField;
 	/*Text field used to input the password*/
 	private JTextField passwordTextField;
+	private JLabel registrationLabel ;
+	private JButton cancelButton;
+	private JLabel enterUsernameLabel;
+	private JLabel enterPasswordLabel;
+	private JCheckBox adminCheckBox;
+	private JButton registorButton ;
+	private JLabel messageLabel;
 	/* 
 	 * An instance of AccountDatabse is initialized which is used to check if
 	 * an account already exists and to insert a new account.
@@ -33,9 +39,13 @@ public class RegistrationPanel extends JFrame {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPanel);
 		contentPanel.setLayout(null);
-		
+		addComponenets();
+		addActionListeners();
+	}
+	
+	public void addComponenets() {
 		/*A label that serves as the title of the screen*/
-		JLabel registrationLabel = new JLabel("Registration");
+		registrationLabel = new JLabel("Registration");
 		registrationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		registrationLabel.setBounds(173, 12, 89, 14);
 		contentPanel.add(registrationLabel);
@@ -52,12 +62,37 @@ public class RegistrationPanel extends JFrame {
 		contentPanel.add(passwordTextField);
 		passwordTextField.setColumns(10);
 		
-
-		
 		/*The button to cancel registration is set up*/
-		JButton cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(116, 186, 89, 23);
 		contentPanel.add(cancelButton);
+		
+		/*Label that shows what to put into the text filed*/
+		enterUsernameLabel = new JLabel("Enter Username:");
+		enterUsernameLabel.setBounds(149, 37, 123, 14);
+		contentPanel.add(enterUsernameLabel);
+		
+		/*Label that shows what to put into the text filed*/
+		enterPasswordLabel = new JLabel("Enter Password:");
+		enterPasswordLabel.setBounds(149, 76, 132, 14);
+		contentPanel.add(enterPasswordLabel);
+		
+		adminCheckBox = new JCheckBox("Admin");
+		adminCheckBox.setBounds(183, 115, 97, 23);
+		contentPanel.add(adminCheckBox);
+		
+		/*The button to confime registration is set up*/
+		registorButton = new JButton("Registor");
+		registorButton.setBounds(226, 186, 89, 23);
+		contentPanel.add(registorButton);
+		
+		messageLabel = new JLabel("");
+		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		messageLabel.setBounds(136, 146, 163, 29);
+		contentPanel.add(messageLabel);
+	}
+	
+	private void addActionListeners() {
 		cancelButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		LoginPanel frame = new LoginPanel();
@@ -66,29 +101,6 @@ public class RegistrationPanel extends JFrame {
 		}
 		});
 		
-		/*Label that shows what to put into the text filed*/
-		JLabel enterUsernameLabel = new JLabel("Enter Username:");
-		enterUsernameLabel.setBounds(149, 37, 123, 14);
-		contentPanel.add(enterUsernameLabel);
-		
-		/*Label that shows what to put into the text filed*/
-		JLabel enterPasswordLabel = new JLabel("Enter Password:");
-		enterPasswordLabel.setBounds(149, 76, 132, 14);
-		contentPanel.add(enterPasswordLabel);
-		
-		JCheckBox adminCheckBox = new JCheckBox("Admin");
-		adminCheckBox.setBounds(183, 115, 97, 23);
-		contentPanel.add(adminCheckBox);
-		
-		/*The button to confime registration is set up*/
-		JButton registorButton = new JButton("Registor");
-		registorButton.setBounds(226, 186, 89, 23);
-		contentPanel.add(registorButton);
-		
-		JLabel messageLabel = new JLabel("");
-		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		messageLabel.setBounds(136, 146, 163, 29);
-		contentPanel.add(messageLabel);
 		registorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Boolean accountCreationSuccess;
@@ -116,4 +128,6 @@ public class RegistrationPanel extends JFrame {
 			}
 			});
 	}
+	
+	
 }

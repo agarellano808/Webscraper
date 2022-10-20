@@ -19,6 +19,14 @@ public class AccountDatabasePanel extends JFrame {
 	private JTextField usernameTextField;
 	private JTextField accountNumberTextField;
 	private JTextField passwordTextField;
+	private JScrollPane scrollPane;
+	private JTextArea displayArea;
+	private JLabel messageLabel;
+	private JButton backButton;
+	private JButton changePasswordButton;
+	private JButton deleteButton;
+	private JLabel accountNumberLabel;
+	private JButton changeUsernameButton;
 	AccountDatabase accountDatabase=new AccountDatabase();
 	
 	public AccountDatabasePanel(UserAccount u) {
@@ -31,11 +39,17 @@ public class AccountDatabasePanel extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		addComponents();
+		addActionListeners(u);
+
+	}
+	
+	public void addComponents() {
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(115, 44, 319, 227);
 		contentPane.add(scrollPane);
 		
-		JTextArea displayArea = new JTextArea();
+		displayArea = new JTextArea();
 		displayArea.setEditable(false);
 		scrollPane.setViewportView(displayArea);
 		displayArea.setText(accountDatabase.printDatabase());
@@ -56,14 +70,34 @@ public class AccountDatabasePanel extends JFrame {
 		contentPane.add(passwordTextField);
 		
 		
-		JLabel messageLabel = new JLabel("");
+		messageLabel = new JLabel("");
 		messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		messageLabel.setBounds(67, 11, 416, 14);
 		contentPane.add(messageLabel);
 		
-		JButton backButton = new JButton("Back");
+		backButton = new JButton("Back");
 		backButton.setBounds(435, 321, 89, 23);
 		contentPane.add(backButton);
+		
+		changePasswordButton = new JButton("Change Password");
+		changePasswordButton.setBounds(125, 282, 140, 23);
+		contentPane.add(changePasswordButton);
+		
+		deleteButton = new JButton("Delete");
+		deleteButton.setBounds(435, 282, 89, 23);
+		contentPane.add(deleteButton);
+		
+		accountNumberLabel = new JLabel("AccountNumber");
+		accountNumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		accountNumberLabel.setBounds(10, 286, 95, 14);
+		contentPane.add(accountNumberLabel);
+		
+		changeUsernameButton = new JButton("Change Username");
+		changeUsernameButton.setBounds(124, 316, 141, 23);
+		contentPane.add(changeUsernameButton);
+	}
+
+	private void addActionListeners(UserAccount u) {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					SearchPanel frame = new SearchPanel(u);
@@ -72,9 +106,7 @@ public class AccountDatabasePanel extends JFrame {
 			}
 		});
 		
-		JButton changePasswordButton = new JButton("Change Password");
-		changePasswordButton.setBounds(125, 282, 140, 23);
-		contentPane.add(changePasswordButton);
+
 		changePasswordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				accountDatabase.adminModifyPassword(Integer.parseInt(accountNumberTextField.getText()),passwordTextField.getText());
@@ -83,9 +115,7 @@ public class AccountDatabasePanel extends JFrame {
 		});
 
 		
-		JButton deleteButton = new JButton("Delete");
-		deleteButton.setBounds(435, 282, 89, 23);
-		contentPane.add(deleteButton);
+
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				accountDatabase.deleteAccount(Integer.parseInt(accountNumberTextField.getText()));
@@ -93,24 +123,13 @@ public class AccountDatabasePanel extends JFrame {
 			}
 		});
 
-		
-		JLabel accountNumberLabel = new JLabel("AccountNumber");
-		accountNumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		accountNumberLabel.setBounds(10, 286, 95, 14);
-		contentPane.add(accountNumberLabel);
-		
-
 		/*The button used to change the username*/
-		JButton changeUsernameButton = new JButton("Change Username");
-		changeUsernameButton.setBounds(124, 316, 141, 23);
-		contentPane.add(changeUsernameButton);
+
 		changeUsernameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				accountDatabase.adminModifyUsername(Integer.parseInt(accountNumberTextField.getText()),usernameTextField.getText());
 				displayArea.setText(accountDatabase.printDatabase());
 			}
 		});
-
-
 	}
 }

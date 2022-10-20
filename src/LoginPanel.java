@@ -28,12 +28,12 @@ public class LoginPanel extends JPanel {
 
 	/* Creates the frame. */
 	public LoginPanel() {
-
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		addComponents();
+		addActionListeners();
 
 	}
 	
@@ -76,7 +76,7 @@ public class LoginPanel extends JPanel {
 
 	}
 	
-	public void addActionListners() {
+	public void addActionListeners() {
 		createAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrationPanel frame = new RegistrationPanel();
