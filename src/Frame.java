@@ -24,13 +24,13 @@ public class Frame extends JFrame {
 	}
 	
 	private void addPanels() throws SQLException {
-		loginPanel = new ButtonPanel();
+		loginPanel = new LoginPanel();
 		getContentPane().add(loginPanel, "1");
-		accountDatabasePanel=new Board();
+		accountDatabasePanel=new AccountDatabasePanel();
 		getContentPane().add(accountDatabasePanel, "2");
-		offlineHashTablePanel = new HighScoreScreen();
+		offlineHashTablePanel = new OfflineHashtablePanel();
 		getContentPane().add(offlineHashTablePanel, "3");
-		RegistrationPanel = new EnterInitialsPanel();
+		RegistrationPanel = new RegistrationPanel();
 		getContentPane().add(RegistrationPanel, "4");
 	}
 
