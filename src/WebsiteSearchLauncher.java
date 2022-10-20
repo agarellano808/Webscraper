@@ -9,7 +9,7 @@ public class WebsiteSearchLauncher {
 		}
 		else {
 		try {
-			LoginGUI frame = new LoginGUI();
+			LoginPanel frame = new LoginPanel();
 			frame.setVisible(true);
 		}
 		
